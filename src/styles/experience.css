@@ -1,0 +1,135 @@
+.experience-timeline {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.experience-timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--accent-blue), var(--lavender-deep));
+}
+
+.experience-card {
+  padding: 32px;
+  position: relative;
+  max-width: 45%;
+  margin-bottom: 48px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-md);
+  border-radius: var(--border-radius-md);
+}
+
+.experience-card:nth-child(even) {
+  margin-left: auto;
+}
+
+.experience-card::before {
+  content: '';
+  position: absolute;
+  top: 32px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent-blue);
+  border: 3px solid var(--bg-primary);
+  z-index: 1;
+}
+
+.experience-card:nth-child(odd)::before {
+  right: -58px;
+}
+
+.experience-card:nth-child(even)::before {
+  left: -58px;
+}
+
+.experience-header {
+  margin-bottom: 16px;
+}
+
+.experience-company {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.experience-role {
+  font-size: 1rem;
+  color: var(--accent-blue);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.experience-duration {
+  font-size: 0.85rem;
+  color: var(--text-tertiary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.experience-project {
+  display: inline-block;
+  padding: 4px 12px;
+  background: rgba(var(--accent-blue-rgb), 0.1);
+  color: var(--accent-blue);
+  border-radius: var(--border-radius-full);
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+.experience-responsibilities {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.experience-responsibilities li {
+  padding-left: 20px;
+  position: relative;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.experience-responsibilities li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-blue);
+}
+
+@media (max-width: 768px) {
+  .experience-timeline::before {
+    left: 20px;
+    transform: none;
+  }
+  
+  .experience-card {
+    max-width: calc(100% - 40px);
+    margin-left: 40px !important;
+  }
+  
+  .experience-card:nth-child(odd)::before,
+  .experience-card:nth-child(even)::before {
+    left: -27px;
+    right: auto;
+  }
+}

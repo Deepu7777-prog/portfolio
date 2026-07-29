@@ -1,0 +1,99 @@
+.education-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .education-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.education-card {
+  background: var(--glass-bg, rgba(255, 255, 255, 0.05));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
+  border-radius: var(--border-radius-lg, 16px);
+  padding: 32px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+}
+
+.education-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, var(--accent-blue, #2563eb), transparent);
+  opacity: 0.5;
+}
+
+.education-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.education-degree {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: var(--text-primary, #ffffff);
+}
+
+.education-field {
+  font-size: 0.9rem;
+  color: var(--accent-blue, #3b82f6);
+  margin-bottom: 12px;
+}
+
+.education-year {
+  font-size: 0.85rem;
+  color: var(--text-tertiary, #9ca3af);
+  margin-bottom: 16px;
+}
+
+.education-score {
+  position: relative;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
+}
+
+.education-score-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--accent-blue, #3b82f6);
+  font-family: var(--font-display, inherit);
+  display: block;
+}
+
+.education-score-label {
+  font-size: 0.8rem;
+  color: var(--text-tertiary, #9ca3af);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.education-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.education-card:hover .education-score-value {
+  animation: pulse-glow 2s infinite;
+}
+
+@keyframes pulse-glow {
+  0% { text-shadow: 0 0 5px rgba(59, 130, 246, 0.2); }
+  50% { text-shadow: 0 0 20px rgba(59, 130, 246, 0.6); }
+  100% { text-shadow: 0 0 5px rgba(59, 130, 246, 0.2); }
+}

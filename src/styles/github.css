@@ -1,0 +1,119 @@
+/* ============================================
+   GITHUB STATS COMPONENT STYLES
+   ============================================ */
+
+.github-stats {
+  margin-top: 32px;
+}
+
+.github-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.github-stat-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-md);
+  padding: 20px 16px;
+  text-align: center;
+  transition: all var(--transition-base);
+}
+
+.github-stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--accent-blue);
+}
+
+.github-stat-value {
+  font-size: 1.8rem;
+  font-weight: 800;
+  font-family: var(--font-display);
+  color: var(--accent-blue);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.github-stat-label {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.github-stats-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.github-stats-header a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: color var(--transition-fast);
+}
+
+.github-stats-header a:hover {
+  color: var(--accent-blue);
+}
+
+.github-stats-header svg {
+  font-size: 1.2rem;
+}
+
+.github-contribution-graph {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(52, 1fr);
+  gap: 2px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.github-contribution-cell {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 2px;
+  background: var(--bg-tertiary);
+  transition: all var(--transition-fast);
+}
+
+.github-contribution-cell.level-1 {
+  background: rgba(37, 99, 235, 0.2);
+}
+
+.github-contribution-cell.level-2 {
+  background: rgba(37, 99, 235, 0.4);
+}
+
+.github-contribution-cell.level-3 {
+  background: rgba(37, 99, 235, 0.6);
+}
+
+.github-contribution-cell.level-4 {
+  background: rgba(37, 99, 235, 0.85);
+}
+
+@media (max-width: 768px) {
+  .github-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .github-contribution-graph {
+    display: none;
+  }
+}

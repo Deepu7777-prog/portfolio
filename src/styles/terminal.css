@@ -1,0 +1,75 @@
+.terminal-container {
+  border-radius: 12px;
+  overflow: hidden;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  background: #1e293b;
+  margin: 0 auto;
+}
+
+.terminal-header {
+  height: 32px;
+  background: #374151;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 6px;
+  position: relative;
+}
+
+.terminal-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.terminal-dot.red { background: #ef4444; }
+.terminal-dot.yellow { background: #f59e0b; }
+.terminal-dot.green { background: #10b981; }
+
+.terminal-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #9ca3af;
+  font-size: 0.75rem;
+  font-family: var(--font-mono, monospace);
+}
+
+.terminal-body {
+  padding: 20px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.85rem;
+  line-height: 1.8;
+  color: #e2e8f0;
+  min-height: 250px;
+}
+
+.terminal-line {
+  margin-bottom: 8px;
+}
+
+.terminal-command {
+  color: #34d399;
+}
+
+.terminal-response {
+  color: #93c5fd;
+  margin-left: 12px;
+}
+
+.terminal-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 15px;
+  background-color: white;
+  vertical-align: middle;
+  margin-left: 2px;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}

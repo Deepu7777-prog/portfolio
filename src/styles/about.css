@@ -1,0 +1,99 @@
+.about-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.about-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-lg);
+  border-radius: var(--border-radius-lg);
+  max-width: 900px;
+  width: 100%;
+  padding: 48px;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, var(--accent-blue) 0%, transparent 70%);
+  opacity: 0.05;
+  border-radius: 50%;
+  transform: translate(-30%, -30%);
+  z-index: 0;
+}
+
+.about-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.about-image {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 3px solid var(--accent-blue);
+  object-fit: cover;
+  margin: 0 auto 32px;
+  display: block;
+}
+
+.about-text {
+  text-align: left;
+}
+
+.about-text p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.about-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.about-tag {
+  padding: 8px 16px;
+  border-radius: var(--border-radius-full);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.about-tag:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: var(--shadow-sm);
+}
+
+.about-tag:nth-child(5n + 1) { background-color: var(--lavender); color: var(--lavender-deep); }
+.about-tag:nth-child(5n + 2) { background-color: var(--light-cyan); color: var(--text-primary); }
+.about-tag:nth-child(5n + 3) { background-color: var(--soft-peach); color: var(--text-primary); }
+.about-tag:nth-child(5n + 4) { background-color: var(--mint); color: var(--mint-deep); }
+.about-tag:nth-child(5n + 5) { background-color: var(--rose); color: var(--text-primary); }
+
+@media (max-width: 768px) {
+  .about-card {
+    padding: 24px;
+  }
+  .about-text {
+    text-align: center;
+  }
+}
