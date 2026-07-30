@@ -13,22 +13,25 @@ interface SmoothScrollProps {
 const SmoothScrollProvider: React.FC<SmoothScrollProps> = ({ children }) => {
   useEffect(() => {
     const lenis = new Lenis({
-      lerp: 0.08,
       duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
+      wheelMultiplier: 1.0,
+      touchMultiplier: 1.5,
     });
 
     lenis.on('scroll', ScrollTrigger.update);
 
-    gsap.ticker.add((time) => {
+    const updateFunc = (time: number) => {
       lenis.raf(time * 1000);
-    });
+    };
 
+    gsap.ticker.add(updateFunc);
     gsap.ticker.lagSmoothing(0);
 
     return () => {
+      gsap.ticker.remove(updateFunc);
       lenis.destroy();
-      gsap.ticker.remove((time) => lenis.raf(time * 1000));
     };
   }, []);
 

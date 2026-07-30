@@ -1,6 +1,5 @@
 import { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Sphere } from '@react-three/drei';
 import * as THREE from 'three';
 
 // Create a heart shape
@@ -32,74 +31,68 @@ export function BackgroundParticles() {
   const heartsRef = useRef<THREE.Group>(null);
   const bubblesRef = useRef<THREE.Group>(null);
   const starsRef = useRef<THREE.Points>(null);
-  const butterfly1Ref = useRef<THREE.Group>(null);
-  const butterfly2Ref = useRef<THREE.Group>(null);
-  const lightRaysRef = useRef<THREE.Group>(null);
 
-  // Initialize petals (30)
+  // Initialize petals (25)
   const petalData = useMemo(() => {
-    return Array.from({ length: 30 }).map(() => ({
-      x: (Math.random() - 0.5) * 12,
-      y: Math.random() * 8 + 4,
+    return Array.from({ length: 25 }).map(() => ({
+      x: (Math.random() - 0.5) * 14,
+      y: Math.random() * 10 + 2,
       z: (Math.random() - 0.5) * 6 - 2,
-      scale: Math.random() * 0.15 + 0.1,
-      speedY: Math.random() * 0.015 + 0.01,
-      speedX: (Math.random() - 0.5) * 0.01,
-      spinSpeed: Math.random() * 0.02 + 0.01,
+      scale: Math.random() * 0.12 + 0.08,
+      speedY: Math.random() * 0.012 + 0.008,
+      spinSpeed: Math.random() * 0.015 + 0.005,
       offset: Math.random() * 100,
     }));
   }, []);
 
-  // Initialize sparkles (60)
+  // Initialize sparkles (40)
   const sparklesData = useMemo(() => {
-    const pos = new Float32Array(60 * 3);
-    const speeds = new Float32Array(60);
-    const offsets = new Float32Array(60);
-    for (let i = 0; i < 60; i++) {
+    const pos = new Float32Array(40 * 3);
+    const speeds = new Float32Array(40);
+    const offsets = new Float32Array(40);
+    for (let i = 0; i < 40; i++) {
       pos[i * 3] = (Math.random() - 0.5) * 14;
       pos[i * 3 + 1] = (Math.random() - 0.5) * 10;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 8 - 3;
-      speeds[i] = Math.random() * 0.01 + 0.005;
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 6 - 3;
+      speeds[i] = Math.random() * 0.008 + 0.004;
       offsets[i] = Math.random() * 100;
     }
     return { pos, speeds, offsets };
   }, []);
 
-  // Initialize hearts (12)
+  // Initialize hearts (8)
   const heartsData = useMemo(() => {
-    return Array.from({ length: 12 }).map(() => ({
+    return Array.from({ length: 8 }).map(() => ({
       x: (Math.random() - 0.5) * 10,
       y: Math.random() * 8 - 4,
       z: (Math.random() - 0.5) * 4 - 3,
-      scale: Math.random() * 0.08 + 0.05,
+      scale: Math.random() * 0.06 + 0.04,
+      speedY: Math.random() * 0.008 + 0.004,
+      offset: Math.random() * 100,
+    }));
+  }, []);
+
+  // Initialize bubbles (10)
+  const bubblesData = useMemo(() => {
+    return Array.from({ length: 10 }).map(() => ({
+      x: (Math.random() - 0.5) * 12,
+      y: Math.random() * 8 - 4,
+      z: (Math.random() - 0.5) * 6 - 2,
+      scale: Math.random() * 0.15 + 0.06,
       speedY: Math.random() * 0.01 + 0.005,
       offset: Math.random() * 100,
     }));
   }, []);
 
-  // Initialize bubbles (15)
-  const bubblesData = useMemo(() => {
-    return Array.from({ length: 15 }).map(() => ({
-      x: (Math.random() - 0.5) * 12,
-      y: Math.random() * 8 - 4,
-      z: (Math.random() - 0.5) * 6 - 2,
-      scale: Math.random() * 0.2 + 0.08,
-      speedY: Math.random() * 0.015 + 0.01,
-      offset: Math.random() * 100,
-    }));
-  }, []);
-
-  // Initialize stars (50)
+  // Initialize stars (35)
   const starsData = useMemo(() => {
-    const pos = new Float32Array(50 * 3);
-    const frequencies = new Float32Array(50);
-    for (let i = 0; i < 50; i++) {
+    const pos = new Float32Array(35 * 3);
+    for (let i = 0; i < 35; i++) {
       pos[i * 3] = (Math.random() - 0.5) * 16;
       pos[i * 3 + 1] = (Math.random() - 0.5) * 10;
       pos[i * 3 + 2] = (Math.random() - 0.5) * 6 - 4;
-      frequencies[i] = Math.random() * 2 + 1;
     }
-    return { pos, frequencies };
+    return { pos };
   }, []);
 
   useFrame((state) => {
@@ -110,15 +103,14 @@ export function BackgroundParticles() {
       petalsRef.current.children.forEach((child, i) => {
         const data = petalData[i];
         data.y -= data.speedY;
-        data.x += Math.sin(time + data.offset) * 0.005;
+        data.x += Math.sin(time + data.offset) * 0.004;
         child.position.set(data.x, data.y, data.z);
         child.rotation.x += data.spinSpeed;
         child.rotation.y += data.spinSpeed * 0.5;
 
-        // Reset if offscreen
         if (data.y < -5) {
-          data.y = 5;
-          data.x = (Math.random() - 0.5) * 12;
+          data.y = 6;
+          data.x = (Math.random() - 0.5) * 14;
         }
       });
     }
@@ -127,12 +119,11 @@ export function BackgroundParticles() {
     if (sparklesRef.current) {
       const posAttr = sparklesRef.current.geometry.attributes.position;
       const arr = posAttr.array as Float32Array;
-      for (let i = 0; i < 60; i++) {
+      for (let i = 0; i < 40; i++) {
         const idx = i * 3;
         arr[idx + 1] -= sparklesData.speeds[i];
-        arr[idx] += Math.sin(time + sparklesData.offsets[i]) * 0.003;
+        arr[idx] += Math.sin(time + sparklesData.offsets[i]) * 0.002;
 
-        // Reset if offscreen
         if (arr[idx + 1] < -6) {
           arr[idx + 1] = 6;
           arr[idx] = (Math.random() - 0.5) * 14;
@@ -148,9 +139,7 @@ export function BackgroundParticles() {
         data.y += data.speedY;
         data.x += Math.sin(time * 0.5 + data.offset) * 0.003;
         child.position.set(data.x, data.y, data.z);
-        child.rotation.y = Math.sin(time + data.offset) * 0.2;
 
-        // Reset if offscreen
         if (data.y > 6) {
           data.y = -6;
           data.x = (Math.random() - 0.5) * 10;
@@ -163,10 +152,9 @@ export function BackgroundParticles() {
       bubblesRef.current.children.forEach((child, i) => {
         const data = bubblesData[i];
         data.y += data.speedY;
-        data.x += Math.cos(time * 0.3 + data.offset) * 0.005;
+        data.x += Math.cos(time * 0.3 + data.offset) * 0.004;
         child.position.set(data.x, data.y, data.z);
 
-        // Reset if offscreen
         if (data.y > 6) {
           data.y = -6;
           data.x = (Math.random() - 0.5) * 12;
@@ -174,65 +162,31 @@ export function BackgroundParticles() {
       });
     }
 
-    // 5. Animate Twinkling Stars
+    // 5. Stars Rotation
     if (starsRef.current) {
-      // Modulate sizes or opacity using time inside custom shaders isn't necessary,
-      // we can slowly rotate stars to create a twinkling dynamic.
-      starsRef.current.rotation.z = time * 0.02;
-    }
-
-    // 6. Animate Butterflies
-    if (butterfly1Ref.current) {
-      const b1 = butterfly1Ref.current;
-      const posX = -6 + (time * 0.8) % 15;
-      const posY = 1 + Math.sin(time * 2.5) * 0.5;
-      b1.position.set(posX, posY, -2);
-      
-      // Flap wings
-      const leftWing = b1.children[0];
-      const rightWing = b1.children[1];
-      leftWing.rotation.y = Math.sin(time * 25) * 0.8;
-      rightWing.rotation.y = -Math.sin(time * 25) * 0.8;
-    }
-
-    if (butterfly2Ref.current) {
-      const b2 = butterfly2Ref.current;
-      const posX = 7 - ((time * 0.6) % 15);
-      const posY = -1 + Math.sin(time * 2) * 0.4;
-      b2.position.set(posX, posY, -3);
-      
-      // Flap wings
-      const leftWing = b2.children[0];
-      const rightWing = b2.children[1];
-      leftWing.rotation.y = Math.sin(time * 20) * 0.8;
-      rightWing.rotation.y = -Math.sin(time * 20) * 0.8;
-    }
-
-    // 7. Light Rays slow movement
-    if (lightRaysRef.current) {
-      lightRaysRef.current.rotation.z = Math.sin(time * 0.2) * 0.05;
+      starsRef.current.rotation.z = time * 0.01;
     }
   });
 
   return (
     <group>
-      {/* 1. Cherry Blossom / Flower Petals Group */}
+      {/* 1. Flower Petals */}
       <group ref={petalsRef}>
         {petalData.map((data, i) => (
           <mesh key={i} position={[data.x, data.y, data.z]} scale={[data.scale, data.scale, data.scale]}>
             <shapeGeometry args={[petalShape]} />
-            <meshPhysicalMaterial 
-              color="#FBCFE8" 
-              roughness={0.6} 
-              transmission={0.4} 
-              thickness={0.2}
+            <meshStandardMaterial 
+              color="#EC4899" 
+              roughness={0.4} 
+              transparent
+              opacity={0.65}
               side={THREE.DoubleSide} 
             />
           </mesh>
         ))}
       </group>
 
-      {/* 2. Sparkles Points */}
+      {/* 2. Sparkles */}
       <points ref={sparklesRef}>
         <bufferGeometry>
           <bufferAttribute
@@ -241,44 +195,41 @@ export function BackgroundParticles() {
           />
         </bufferGeometry>
         <pointsMaterial
-          size={0.03}
-          color="#FEF08A"
+          size={0.035}
+          color="#3B82F6"
           transparent
-          opacity={0.7}
+          opacity={0.8}
           sizeAttenuation
         />
       </points>
 
-      {/* 3. Subtle Hearts Group */}
+      {/* 3. Hearts */}
       <group ref={heartsRef}>
         {heartsData.map((data, i) => (
           <mesh key={i} position={[data.x, data.y, data.z]} scale={[data.scale, data.scale, data.scale]}>
             <shapeGeometry args={[heartShape]} />
-            <meshBasicMaterial color="#FDA4AF" transparent opacity={0.35} side={THREE.DoubleSide} />
+            <meshBasicMaterial color="#8B5CF6" transparent opacity={0.3} side={THREE.DoubleSide} />
           </mesh>
         ))}
       </group>
 
-      {/* 4. Glass Bubbles Group */}
+      {/* 4. Glass Bubbles */}
       <group ref={bubblesRef}>
         {bubblesData.map((data, i) => (
-          <group key={i} position={[data.x, data.y, data.z]}>
-            <Sphere args={[data.scale, 16, 16]}>
-              <meshPhysicalMaterial
-                color="#ECFEFF"
-                transmission={0.8}
-                roughness={0.1}
-                ior={1.2}
-                thickness={0.1}
-                transparent
-                opacity={0.3}
-              />
-            </Sphere>
-          </group>
+          <mesh key={i} position={[data.x, data.y, data.z]}>
+            <sphereGeometry args={[data.scale, 16, 16]} />
+            <meshStandardMaterial
+              color="#06B6D4"
+              roughness={0.1}
+              metalness={0.2}
+              transparent
+              opacity={0.25}
+            />
+          </mesh>
         ))}
       </group>
 
-      {/* 5. Twinkling Stars Points */}
+      {/* 5. Stars */}
       <points ref={starsRef}>
         <bufferGeometry>
           <bufferAttribute
@@ -294,47 +245,8 @@ export function BackgroundParticles() {
           sizeAttenuation
         />
       </points>
-
-      {/* 6. Butterflies */}
-      {/* Butterfly 1 */}
-      <group ref={butterfly1Ref}>
-        {/* Left wing */}
-        <mesh position={[-0.1, 0, 0]} rotation={[0, 0, -0.2]}>
-          <planeGeometry args={[0.2, 0.15]} />
-          <meshBasicMaterial color="#F472B6" transparent opacity={0.6} side={THREE.DoubleSide} />
-        </mesh>
-        {/* Right wing */}
-        <mesh position={[0.1, 0, 0]} rotation={[0, 0, 0.2]}>
-          <planeGeometry args={[0.2, 0.15]} />
-          <meshBasicMaterial color="#F472B6" transparent opacity={0.6} side={THREE.DoubleSide} />
-        </mesh>
-      </group>
-
-      {/* Butterfly 2 */}
-      <group ref={butterfly2Ref}>
-        {/* Left wing */}
-        <mesh position={[-0.08, 0, 0]} rotation={[0, 0, -0.2]}>
-          <planeGeometry args={[0.16, 0.12]} />
-          <meshBasicMaterial color="#F5D0FE" transparent opacity={0.5} side={THREE.DoubleSide} />
-        </mesh>
-        {/* Right wing */}
-        <mesh position={[0.08, 0, 0]} rotation={[0, 0, 0.2]}>
-          <planeGeometry args={[0.16, 0.12]} />
-          <meshBasicMaterial color="#F5D0FE" transparent opacity={0.5} side={THREE.DoubleSide} />
-        </mesh>
-      </group>
-
-      {/* 7. Light Rays */}
-      <group ref={lightRaysRef} position={[0, 5, -5]} rotation={[0, 0, -0.3]}>
-        <mesh position={[-2, -5, 0]} rotation={[0, 0, 0.1]}>
-          <coneGeometry args={[1.5, 12, 16]} />
-          <meshBasicMaterial color="#FAE8FF" transparent opacity={0.06} />
-        </mesh>
-        <mesh position={[2, -5, 0]} rotation={[0, 0, -0.1]}>
-          <coneGeometry args={[2.0, 12, 16]} />
-          <meshBasicMaterial color="#ECFEFF" transparent opacity={0.05} />
-        </mesh>
-      </group>
     </group>
   );
 }
+
+export default BackgroundParticles;
