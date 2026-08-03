@@ -1,202 +1,183 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiMail, FiPhone, FiLinkedin, FiGithub, FiSend, FiCheck, FiMapPin } from 'react-icons/fi';
+import {
+  FiMail,
+  FiPhone,
+  FiMapPin,
+  FiLinkedin,
+  FiGithub,
+  FiDownload,
+  FiCopy,
+  FiCheck,
+  FiExternalLink,
+} from 'react-icons/fi';
 import { personalInfo } from '../data/portfolio';
 import GlobeCanvas from '../components/3d/Globe';
 import '../styles/contact.css';
 
-const Contact = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-  const [submitted, setSubmitted] = useState(false);
+const Contact: React.FC = () => {
+  const [copiedText, setCopiedText] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({ name: '', email: '', message: '' });
-    }, 3000);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleCopy = (text: string, label: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedText(`${label} copied to clipboard!`);
+    setTimeout(() => setCopiedText(null), 2500);
   };
 
   return (
     <section id="contact" className="section gradient-bg">
       <div className="container">
-        <div className="section-header text-center">
-          <motion.p 
-            className="section-label"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            Get In Touch
-          </motion.p>
-          <motion.h2 
-            className="section-title"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-          >
-            Let's Connect
-          </motion.h2>
+        <div className="section-header">
+          <span className="section-label">Let's Connect</span>
+          <h2 className="section-title">Get In Touch</h2>
+          <p className="section-subtitle">
+            Currently looking for internship opportunities and software engineering projects.
+          </p>
         </div>
 
-        <div className="contact-grid">
+        <div className="contact-container">
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            className="contact-glass-card"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.6 }}
           >
-            <form className="contact-form" onSubmit={handleSubmit}>
-              <div className="form-group">
-                <input
-                  type="text"
-                  name="name"
-                  id="name"
-                  className="form-input"
-                  placeholder=" "
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                />
-                <label htmlFor="name" className="form-label">Name</label>
-              </div>
-              
-              <div className="form-group">
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  className="form-input"
-                  placeholder=" "
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
-                <label htmlFor="email" className="form-label">Email</label>
-              </div>
-              
-              <div className="form-group">
-                <textarea
-                  name="message"
-                  id="message"
-                  className="form-textarea"
-                  placeholder=" "
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                ></textarea>
-                <label htmlFor="message" className="form-label">Message</label>
-              </div>
-              
-              <button type="submit" className="form-submit">
-                Send Message <FiSend />
-              </button>
+            {/* Action Buttons Bar */}
+            <div className="contact-action-bar">
+              <a
+                href={personalInfo.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-primary"
+              >
+                <FiLinkedin /> Open LinkedIn
+              </a>
+              <a
+                href={personalInfo.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-secondary"
+              >
+                <FiGithub /> Open GitHub
+              </a>
+              <a
+                href={personalInfo.resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-secondary"
+              >
+                <FiDownload /> Download Resume
+              </a>
+              <a
+                href={`mailto:${personalInfo.email}`}
+                className="btn btn-secondary"
+              >
+                <FiMail /> Send Email
+              </a>
+            </div>
 
-              <AnimatePresence>
-                {submitted && (
-                  <motion.div 
-                    className="contact-success"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                  >
-                    <motion.div 
-                      className="contact-success-icon"
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ type: "spring", stiffness: 200, delay: 0.1 }}
-                    >
-                      <FiCheck />
-                    </motion.div>
-                    <h3>Message Sent!</h3>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </form>
-          </motion.div>
-
-          <motion.div
-            className="contact-info"
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <motion.a 
-              href={`mailto:${personalInfo.email}`}
-              className="contact-info-card"
-              whileHover={{ scale: 1.02 }}
-            >
-              <div className="contact-info-icon"><FiMail /></div>
-              <div className="contact-info-text">
-                <span className="contact-info-label">Email</span>
-                <span className="contact-info-value">{personalInfo.email}</span>
+            {/* Info Grid with Copy Buttons */}
+            <div className="contact-grid-info">
+              {/* Email Card */}
+              <div className="contact-info-item">
+                <div className="contact-info-left">
+                  <div className="contact-icon-box">
+                    <FiMail />
+                  </div>
+                  <div>
+                    <div className="contact-info-label">Email Address</div>
+                    <div className="contact-info-val">{personalInfo.email}</div>
+                  </div>
+                </div>
+                <button
+                  className="contact-copy-btn"
+                  onClick={() => handleCopy(personalInfo.email, 'Email')}
+                >
+                  <FiCopy /> Copy
+                </button>
               </div>
-            </motion.a>
 
-            <motion.a 
-              href={`tel:${personalInfo.phone}`}
-              className="contact-info-card"
-              whileHover={{ scale: 1.02 }}
-            >
-              <div className="contact-info-icon"><FiPhone /></div>
-              <div className="contact-info-text">
-                <span className="contact-info-label">Phone</span>
-                <span className="contact-info-value">{personalInfo.phone}</span>
+              {/* Phone Card */}
+              <div className="contact-info-item">
+                <div className="contact-info-left">
+                  <div className="contact-icon-box">
+                    <FiPhone />
+                  </div>
+                  <div>
+                    <div className="contact-info-label">Phone Number</div>
+                    <div className="contact-info-val">{personalInfo.phone}</div>
+                  </div>
+                </div>
+                <button
+                  className="contact-copy-btn"
+                  onClick={() => handleCopy(personalInfo.phone, 'Phone')}
+                >
+                  <FiCopy /> Copy
+                </button>
               </div>
-            </motion.a>
 
-            <motion.a 
-              href={personalInfo.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="contact-info-card"
-              whileHover={{ scale: 1.02 }}
-            >
-              <div className="contact-info-icon"><FiLinkedin /></div>
-              <div className="contact-info-text">
-                <span className="contact-info-label">LinkedIn</span>
-                <span className="contact-info-value">Connect on LinkedIn</span>
+              {/* Location Card */}
+              <div className="contact-info-item">
+                <div className="contact-info-left">
+                  <div className="contact-icon-box">
+                    <FiMapPin />
+                  </div>
+                  <div>
+                    <div className="contact-info-label">Location</div>
+                    <div className="contact-info-val">{personalInfo.location}</div>
+                  </div>
+                </div>
+                <button
+                  className="contact-copy-btn"
+                  onClick={() => handleCopy(personalInfo.location, 'Location')}
+                >
+                  <FiCopy /> Copy
+                </button>
               </div>
-            </motion.a>
 
-            <motion.a 
-              href={personalInfo.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="contact-info-card"
-              whileHover={{ scale: 1.02 }}
-            >
-              <div className="contact-info-icon"><FiGithub /></div>
-              <div className="contact-info-text">
-                <span className="contact-info-label">GitHub</span>
-                <span className="contact-info-value">View my repositories</span>
+              {/* LinkedIn URL Card */}
+              <div className="contact-info-item">
+                <div className="contact-info-left">
+                  <div className="contact-icon-box">
+                    <FiExternalLink />
+                  </div>
+                  <div>
+                    <div className="contact-info-label">LinkedIn Profile</div>
+                    <div className="contact-info-val">saideepthikummarii</div>
+                  </div>
+                </div>
+                <button
+                  className="contact-copy-btn"
+                  onClick={() => handleCopy(personalInfo.linkedin, 'LinkedIn URL')}
+                >
+                  <FiCopy /> Copy
+                </button>
               </div>
-            </motion.a>
-            
-            <motion.div 
-              className="contact-info-card"
-              style={{ pointerEvents: 'none' }}
-            >
-              <div className="contact-info-icon"><FiMapPin /></div>
-              <div className="contact-info-text">
-                <span className="contact-info-label">Location</span>
-                <span className="contact-info-value">{personalInfo.location}</span>
-              </div>
-            </motion.div>
+            </div>
 
-            <div className="contact-globe">
+            {/* 3D Sangareddy Globe Canvas */}
+            <div style={{ marginTop: '48px', height: '320px', borderRadius: '24px', overflow: 'hidden' }}>
               <GlobeCanvas />
             </div>
           </motion.div>
         </div>
       </div>
+
+      {/* Copy Notification Toast */}
+      <AnimatePresence>
+        {copiedText && (
+          <motion.div
+            className="copy-toast"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+          >
+            <FiCheck style={{ fontSize: '1.2rem', color: '#10B981' }} />
+            <span>{copiedText}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };

@@ -1,50 +1,113 @@
-import { motion } from 'framer-motion';
-import { FiBriefcase, FiCalendar } from 'react-icons/fi';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FiBriefcase, FiCalendar, FiAward, FiX } from 'react-icons/fi';
 import { experiences } from '../data/portfolio';
 import '../styles/experience.css';
 
-const Experience = () => {
+const Experience: React.FC = () => {
+  const [showCertModal, setShowCertModal] = useState(false);
+
   return (
-    <section id="experience" className="section">
-      <div className="section-container">
+    <section id="experience" className="section gradient-bg">
+      <div className="container">
         <div className="section-header">
-          <span className="section-label">Experience</span>
-          <h2 className="section-title">Professional Journey</h2>
+          <span className="section-label">Professional Experience</span>
+          <h2 className="section-title">Internships & Industry Projects</h2>
         </div>
 
-        <div className="experience-timeline">
+        <div className="experience-container">
           {experiences.map((exp, index) => (
             <motion.div
               key={index}
               className="experience-card glass-card"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
             >
-              <div className="experience-header">
-                <h3 className="experience-company">
-                  <FiBriefcase style={{ display: 'inline', marginRight: '8px', color: 'var(--text-tertiary)' }} />
-                  {exp.company}
-                </h3>
-                <div className="experience-role">{exp.role}</div>
-                <div className="experience-duration">
-                  <FiCalendar />
-                  {exp.duration}
+              {/* LEFT: Experience Details */}
+              <div>
+                <div className="experience-header-top">
+                  <h3 className="experience-company">{exp.company}</h3>
+                  <span className="experience-duration">
+                    <FiCalendar style={{ marginRight: '6px' }} />
+                    {exp.duration}
+                  </span>
+                </div>
+
+                <div className="experience-role">
+                  <FiBriefcase style={{ marginRight: '8px' }} />
+                  {exp.role}
+                </div>
+
+                <div className="experience-project-badge">
+                  <span>🚀 Project: {exp.project}</span>
+                </div>
+
+                <p className="skill-bento-desc">{exp.description}</p>
+
+                <div className="experience-highlights">
+                  {exp.highlights.map((item, hIdx) => (
+                    <div key={hIdx} className="experience-highlight-chip">
+                      {item}
+                    </div>
+                  ))}
                 </div>
               </div>
-              
-              <div className="experience-project">Project: {exp.project}</div>
-              
-              <ul className="experience-responsibilities">
-                {exp.responsibilities.map((item, idx) => (
-                  <li key={idx}>{item}</li>
-                ))}
-              </ul>
+
+              {/* RIGHT: Certificate Preview */}
+              <div
+                className="experience-cert-wrapper"
+                onClick={() => setShowCertModal(true)}
+              >
+                <img
+                  src="/images/certificate.jpg"
+                  alt="Edunet Foundation Certificate"
+                  className="experience-cert-img"
+                />
+                <div className="experience-cert-overlay">
+                  <FiAward style={{ fontSize: '1.4rem', marginRight: '6px' }} />
+                  View Certificate
+                </div>
+              </div>
             </motion.div>
           ))}
         </div>
       </div>
+
+      {/* Certificate Modal */}
+      <AnimatePresence>
+        {showCertModal && (
+          <motion.div
+            className="cert-modal-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowCertModal(false)}
+          >
+            <motion.div
+              className="cert-modal-content"
+              initial={{ scale: 0.8, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.8, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                className="cert-modal-close"
+                onClick={() => setShowCertModal(false)}
+              >
+                <FiX />
+              </button>
+
+              <img
+                src="/images/certificate.jpg"
+                alt="Edunet Foundation Certificate"
+                style={{ width: '100%', height: 'auto', display: 'block' }}
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };

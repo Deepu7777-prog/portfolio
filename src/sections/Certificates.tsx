@@ -1,57 +1,42 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiAward } from 'react-icons/fi';
-import { certificates } from '../data/portfolio';
+import { certificates, type CertificateItem } from '../data/portfolio';
 import '../styles/certificates.css';
 
-const Certificates = () => {
+const Certificates: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     if (isHovered || certificates.length <= 1) return;
-    
+
     const interval = setInterval(() => {
-      setActiveIndex((current) => (current + 1) % certificates.length);
+      setActiveIndex((prev) => (prev + 1) % certificates.length);
     }, 5000);
-    
+
     return () => clearInterval(interval);
-  }, [isHovered, certificates.length]);
+  }, [isHovered]);
 
   return (
     <section id="certificates" className="section gradient-bg">
       <div className="container">
-        <div className="section-header text-center">
-          <motion.p 
-            className="section-label"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            Certificates
-          </motion.p>
-          <motion.h2 
-            className="section-title"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-          >
-            Certifications & Awards
-          </motion.h2>
+        <div className="section-header">
+          <span className="section-label">Certificates & Awards</span>
+          <h2 className="section-title">Verified Credentials</h2>
         </div>
 
-        <div 
+        <div
           className="certificates-container"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
           <div className="certificate-carousel">
             <AnimatePresence mode="wait">
-              {certificates.map((cert, index) => (
+              {certificates.map((cert: CertificateItem, index: number) => (
                 index === activeIndex && (
                   <motion.div
-                    key={cert.id}
+                    key={index}
                     className="certificate-card"
                     initial={{ opacity: 0, rotateY: -90, scale: 0.8 }}
                     animate={{ opacity: 1, rotateY: 0, scale: 1 }}
@@ -64,7 +49,7 @@ const Certificates = () => {
                     <div className="certificate-badge">
                       <FiAward />
                     </div>
-                    
+
                     <h3 className="certificate-title">{cert.title}</h3>
                     <div className="certificate-issuer">{cert.issuer}</div>
                     <div className="certificate-date">{cert.date}</div>
@@ -73,15 +58,15 @@ const Certificates = () => {
               ))}
             </AnimatePresence>
           </div>
-          
+
           {certificates.length > 1 && (
             <div className="carousel-nav">
-              {certificates.map((_, index) => (
+              {certificates.map((_: CertificateItem, index: number) => (
                 <button
                   key={index}
                   className={`carousel-dot ${index === activeIndex ? 'active' : ''}`}
                   onClick={() => setActiveIndex(index)}
-                  aria-label={`Go to certificate ${index + 1}`}
+                  aria-label={`Go to slide ${index + 1}`}
                 />
               ))}
             </div>

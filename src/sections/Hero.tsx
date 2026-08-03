@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { FiDownload, FiMail, FiLinkedin, FiGithub, FiChevronDown } from 'react-icons/fi';
-import { personalInfo, socialLinks } from '../data/portfolio';
+import { FiDownload, FiFolder, FiSend, FiLinkedin, FiGithub, FiChevronDown } from 'react-icons/fi';
+import { personalInfo } from '../data/portfolio';
 import HeroScene from '../components/3d/HeroScene';
-import Terminal from '../components/Terminal';
 import '../styles/hero.css';
 
 const easeOutTransition = [0.16, 1, 0.3, 1] as const;
@@ -24,73 +23,19 @@ const staggerContainer = {
 };
 
 const Hero: React.FC = () => {
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    setTilt({
-      x: (-y / rect.height) * 15,
-      y: (x / rect.width) * 15,
-    });
-  };
-
-  const handleMouseLeave = () => {
-    setTilt({ x: 0, y: 0 });
+  const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const targetId = href.substring(1);
+    const element = document.getElementById(targetId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
     <section id="home" className="hero">
-      {/* Background Lighting & Particles Mesh */}
-      <HeroScene />
-
       <div className="hero-content">
-        {/* LEFT SIDE: Portrait Photo with Falling Entrance & Bounce Landing */}
-        <motion.div
-          className="hero-image-wrapper"
-          initial={{ y: -300, opacity: 0, scale: 0.85 }}
-          animate={{ y: 0, opacity: 1, scale: 1 }}
-          transition={{
-            type: 'spring',
-            stiffness: 65,
-            damping: 13,
-            mass: 1.1,
-            delay: 0.2,
-          }}
-        >
-          <div className="hero-image-glow" />
-
-          <motion.div
-            className="hero-image-frame"
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-            style={{
-              transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
-            }}
-            animate={{
-              y: [0, -10, 0],
-            }}
-            transition={{
-              duration: 5,
-              repeat: Infinity,
-              ease: 'easeInOut',
-            }}
-          >
-            <img
-              src="/images/profile.jpg"
-              alt="Saideepthi Kummari"
-              className="hero-portrait"
-            />
-
-            <div className="hero-image-badge">
-              <span className="dot" />
-              <span>Available for Internships</span>
-            </div>
-          </motion.div>
-        </motion.div>
-
-        {/* RIGHT SIDE: Text Content, CTAs & Social Links */}
+        {/* LEFT SIDE: Typography, Role Chips, CTAs, Social Icons */}
         <motion.div
           className="hero-text"
           variants={staggerContainer}
@@ -98,51 +43,85 @@ const Hero: React.FC = () => {
           animate="visible"
         >
           <motion.div className="hero-greeting" variants={fadeInUp}>
-            <span>Welcome to my Portfolio</span>
-            <span className="wave">✨</span>
+            <span>Hello</span>
+            <span className="wave">👋</span>
+          </motion.div>
+
+          <motion.div variants={fadeInUp} style={{ fontSize: '1.2rem', color: 'var(--text-secondary)', marginBottom: '4px' }}>
+            I'm
           </motion.div>
 
           <motion.h1 className="hero-name text-gradient" variants={fadeInUp}>
             {personalInfo.name}
           </motion.h1>
 
-          <motion.div className="hero-subtitle" variants={fadeInUp}>
-            Software Engineer / AI & ML Student
+          <motion.div className="hero-role-badges" variants={fadeInUp}>
+            <span className="hero-role-chip">AI & Machine Learning Enthusiast</span>
+            <span className="hero-role-chip">Python Developer</span>
+            <span className="hero-role-chip">Cybersecurity Explorer</span>
           </motion.div>
 
           <motion.p className="hero-description" variants={fadeInUp}>
-            {personalInfo.intro}
+            {personalInfo.heroIntro}
           </motion.p>
 
           <motion.div className="hero-cta" variants={fadeInUp}>
-            <a href={`mailto:${personalInfo.email}`} className="btn btn-primary">
+            <a
+              href={personalInfo.resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-primary"
+            >
               <FiDownload /> Download Resume
             </a>
-            <a href="#contact" className="btn btn-secondary">
-              <FiMail /> Contact Me
+            <a
+              href="#projects"
+              onClick={(e) => handleScrollTo(e, '#projects')}
+              className="btn btn-secondary"
+            >
+              <FiFolder /> View Projects
+            </a>
+            <a
+              href="#contact"
+              onClick={(e) => handleScrollTo(e, '#contact')}
+              className="btn btn-secondary"
+            >
+              <FiSend /> Let's Connect
             </a>
           </motion.div>
 
           <motion.div className="hero-social" variants={fadeInUp}>
-            {socialLinks.map((link, index) => {
-              const Icon = link.name === 'LinkedIn' ? FiLinkedin : FiGithub;
-              return (
-                <a
-                  key={index}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={link.name}
-                  className="hero-social-btn"
-                >
-                  <Icon />
-                </a>
-              );
-            })}
+            <a
+              href={personalInfo.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              className="hero-social-btn"
+            >
+              <FiLinkedin />
+            </a>
+            <a
+              href={personalInfo.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+              className="hero-social-btn"
+            >
+              <FiGithub />
+            </a>
           </motion.div>
+        </motion.div>
 
-          <div style={{ marginTop: '28px', width: '100%' }}>
-            <Terminal />
+        {/* RIGHT SIDE: Pixar 3D Girl Avatar Canvas */}
+        <motion.div
+          className="hero-avatar-wrapper"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          <div className="hero-avatar-glow" />
+          <div className="hero-canvas-container">
+            <HeroScene />
           </div>
         </motion.div>
       </div>

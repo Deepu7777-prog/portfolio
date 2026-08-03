@@ -1,5 +1,5 @@
 /* ============================================
-   Awwwards Navbar Styling
+   Awwwards Floating Glass Navbar Styling
    ============================================ */
 
 .navbar {
@@ -21,10 +21,10 @@
 .navbar.scrolled {
   height: 70px;
   background: rgba(5, 8, 22, 0.85);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(139, 92, 246, 0.2);
 }
 
 .nav-logo {
@@ -38,51 +38,74 @@
 }
 
 .nav-logo-text {
-  background: linear-gradient(135deg, #FFFFFF 0%, var(--accent-cyan) 50%, var(--accent-purple) 100%);
+  background: linear-gradient(135deg, #FFFFFF 0%, var(--accent-purple-light) 50%, var(--accent-cyan) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  padding: 4px 12px;
+  padding: 6px 14px;
   border-radius: var(--border-radius-md);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background-color: rgba(255, 255, 255, 0.04);
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.25);
 }
 
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(15, 23, 42, 0.6);
+  gap: 6px;
+  background: rgba(17, 23, 54, 0.65);
   padding: 6px 12px;
   border-radius: var(--border-radius-full);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(24px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
 }
 
 .nav-link {
   position: relative;
-  padding: 8px 16px;
+  padding: 8px 18px;
   font-size: 0.9rem;
   font-weight: 500;
   color: var(--text-secondary);
-  transition: color var(--transition-fast);
+  transition: all var(--transition-fast);
   border-radius: var(--border-radius-full);
 }
 
 .nav-link:hover {
-  color: var(--text-primary);
+  color: #FFFFFF;
 }
 
 .nav-link.active {
   color: #FFFFFF;
-  background: rgba(139, 92, 246, 0.2);
-  border: 1px solid rgba(139, 92, 246, 0.4);
+  background: rgba(139, 92, 246, 0.3);
+  border: 1px solid rgba(192, 132, 252, 0.4);
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
 }
 
 .nav-actions {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
+}
+
+.nav-resume-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: var(--border-radius-full);
+  background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-purple-secondary) 100%);
+  color: #FFFFFF;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.35);
+  transition: all var(--transition-base);
+}
+
+.nav-resume-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.6);
 }
 
 .theme-toggle {
@@ -90,7 +113,7 @@
   height: 42px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -101,8 +124,8 @@
 
 .theme-toggle:hover {
   background: rgba(139, 92, 246, 0.2);
-  border-color: var(--accent-purple);
-  color: var(--accent-cyan);
+  border-color: var(--accent-purple-light);
+  color: var(--accent-purple-light);
   transform: rotate(15deg);
 }
 
@@ -138,7 +161,7 @@
     left: 0;
     right: 0;
     background: rgba(5, 8, 22, 0.95);
-    backdrop-filter: blur(30px);
+    backdrop-filter: blur(40px);
     flex-direction: column;
     padding: 24px;
     gap: 16px;
