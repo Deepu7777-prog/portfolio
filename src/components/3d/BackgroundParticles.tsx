@@ -30,13 +30,13 @@ export function BackgroundParticles() {
   const sparklesRef = useRef<THREE.Points>(null);
   const heartsRef = useRef<THREE.Group>(null);
   const bubblesRef = useRef<THREE.Group>(null);
-  const starsRef = useRef<THREE.Points>(null);
+  const cubesRef = useRef<THREE.Group>(null);
 
-  // Initialize petals (25)
+  // Initialize petals (30)
   const petalData = useMemo(() => {
-    return Array.from({ length: 25 }).map(() => ({
-      x: (Math.random() - 0.5) * 14,
-      y: Math.random() * 10 + 2,
+    return Array.from({ length: 30 }).map(() => ({
+      x: (Math.random() - 0.5) * 16,
+      y: Math.random() * 12 + 2,
       z: (Math.random() - 0.5) * 6 - 2,
       scale: Math.random() * 0.12 + 0.08,
       speedY: Math.random() * 0.012 + 0.008,
@@ -45,14 +45,14 @@ export function BackgroundParticles() {
     }));
   }, []);
 
-  // Initialize sparkles (40)
+  // Initialize sparkles (50)
   const sparklesData = useMemo(() => {
-    const pos = new Float32Array(40 * 3);
-    const speeds = new Float32Array(40);
-    const offsets = new Float32Array(40);
-    for (let i = 0; i < 40; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 14;
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 10;
+    const pos = new Float32Array(50 * 3);
+    const speeds = new Float32Array(50);
+    const offsets = new Float32Array(50);
+    for (let i = 0; i < 50; i++) {
+      pos[i * 3] = (Math.random() - 0.5) * 16;
+      pos[i * 3 + 1] = (Math.random() - 0.5) * 12;
       pos[i * 3 + 2] = (Math.random() - 0.5) * 6 - 3;
       speeds[i] = Math.random() * 0.008 + 0.004;
       offsets[i] = Math.random() * 100;
@@ -60,133 +60,139 @@ export function BackgroundParticles() {
     return { pos, speeds, offsets };
   }, []);
 
-  // Initialize hearts (8)
-  const heartsData = useMemo(() => {
-    return Array.from({ length: 8 }).map(() => ({
-      x: (Math.random() - 0.5) * 10,
-      y: Math.random() * 8 - 4,
-      z: (Math.random() - 0.5) * 4 - 3,
-      scale: Math.random() * 0.06 + 0.04,
-      speedY: Math.random() * 0.008 + 0.004,
+  // Initialize hearts (12)
+  const heartData = useMemo(() => {
+    return Array.from({ length: 12 }).map(() => ({
+      x: (Math.random() - 0.5) * 14,
+      y: Math.random() * 10 - 5,
+      z: (Math.random() - 0.5) * 5 - 2,
+      scale: Math.random() * 0.08 + 0.05,
+      speedY: Math.random() * 0.006 + 0.003,
       offset: Math.random() * 100,
     }));
   }, []);
 
-  // Initialize bubbles (10)
-  const bubblesData = useMemo(() => {
-    return Array.from({ length: 10 }).map(() => ({
-      x: (Math.random() - 0.5) * 12,
-      y: Math.random() * 8 - 4,
-      z: (Math.random() - 0.5) * 6 - 2,
-      scale: Math.random() * 0.15 + 0.06,
+  // Initialize bubbles (15)
+  const bubbleData = useMemo(() => {
+    return Array.from({ length: 15 }).map(() => ({
+      x: (Math.random() - 0.5) * 16,
+      y: Math.random() * 12 - 6,
+      z: (Math.random() - 0.5) * 5 - 1,
+      scale: Math.random() * 0.2 + 0.1,
       speedY: Math.random() * 0.01 + 0.005,
       offset: Math.random() * 100,
     }));
   }, []);
 
-  // Initialize stars (35)
-  const starsData = useMemo(() => {
-    const pos = new Float32Array(35 * 3);
-    for (let i = 0; i < 35; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 16;
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 10;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 6 - 4;
-    }
-    return { pos };
+  // Initialize floating glass cubes (10)
+  const cubeData = useMemo(() => {
+    return Array.from({ length: 10 }).map(() => ({
+      x: (Math.random() - 0.5) * 16,
+      y: Math.random() * 10 - 5,
+      z: (Math.random() - 0.5) * 6 - 2,
+      scale: Math.random() * 0.3 + 0.15,
+      speedRot: Math.random() * 0.01 + 0.005,
+      offset: Math.random() * 100,
+    }));
   }, []);
 
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
 
-    // 1. Animate Petals
+    // Animate petals
     if (petalsRef.current) {
       petalsRef.current.children.forEach((child, i) => {
         const data = petalData[i];
-        data.y -= data.speedY;
-        data.x += Math.sin(time + data.offset) * 0.004;
-        child.position.set(data.x, data.y, data.z);
+        if (!data) return;
+        child.position.y -= data.speedY;
+        child.position.x += Math.sin(time + data.offset) * 0.005;
         child.rotation.x += data.spinSpeed;
         child.rotation.y += data.spinSpeed * 0.5;
 
-        if (data.y < -5) {
-          data.y = 6;
-          data.x = (Math.random() - 0.5) * 14;
+        if (child.position.y < -6) {
+          child.position.y = 8;
+          child.position.x = (Math.random() - 0.5) * 16;
         }
       });
     }
 
-    // 2. Animate Sparkles
+    // Animate sparkles
     if (sparklesRef.current) {
-      const posAttr = sparklesRef.current.geometry.attributes.position;
-      const arr = posAttr.array as Float32Array;
-      for (let i = 0; i < 40; i++) {
-        const idx = i * 3;
-        arr[idx + 1] -= sparklesData.speeds[i];
-        arr[idx] += Math.sin(time + sparklesData.offsets[i]) * 0.002;
-
-        if (arr[idx + 1] < -6) {
-          arr[idx + 1] = 6;
-          arr[idx] = (Math.random() - 0.5) * 14;
+      const positions = sparklesRef.current.geometry.attributes.position.array as Float32Array;
+      for (let i = 0; i < 50; i++) {
+        positions[i * 3 + 1] -= sparklesData.speeds[i];
+        positions[i * 3] += Math.sin(time + sparklesData.offsets[i]) * 0.003;
+        if (positions[i * 3 + 1] < -6) {
+          positions[i * 3 + 1] = 8;
         }
       }
-      posAttr.needsUpdate = true;
+      sparklesRef.current.geometry.attributes.position.needsUpdate = true;
     }
 
-    // 3. Animate Hearts
+    // Animate hearts
     if (heartsRef.current) {
       heartsRef.current.children.forEach((child, i) => {
-        const data = heartsData[i];
-        data.y += data.speedY;
-        data.x += Math.sin(time * 0.5 + data.offset) * 0.003;
-        child.position.set(data.x, data.y, data.z);
+        const data = heartData[i];
+        if (!data) return;
+        child.position.y += data.speedY;
+        child.position.x += Math.cos(time * 0.8 + data.offset) * 0.004;
 
-        if (data.y > 6) {
-          data.y = -6;
-          data.x = (Math.random() - 0.5) * 10;
+        if (child.position.y > 7) {
+          child.position.y = -6;
+          child.position.x = (Math.random() - 0.5) * 14;
         }
       });
     }
 
-    // 4. Animate Bubbles
+    // Animate bubbles
     if (bubblesRef.current) {
       bubblesRef.current.children.forEach((child, i) => {
-        const data = bubblesData[i];
-        data.y += data.speedY;
-        data.x += Math.cos(time * 0.3 + data.offset) * 0.004;
-        child.position.set(data.x, data.y, data.z);
+        const data = bubbleData[i];
+        if (!data) return;
+        child.position.y += data.speedY;
+        child.position.x += Math.sin(time + data.offset) * 0.006;
 
-        if (data.y > 6) {
-          data.y = -6;
-          data.x = (Math.random() - 0.5) * 12;
+        if (child.position.y > 8) {
+          child.position.y = -7;
+          child.position.x = (Math.random() - 0.5) * 16;
         }
       });
     }
 
-    // 5. Stars Rotation
-    if (starsRef.current) {
-      starsRef.current.rotation.z = time * 0.01;
+    // Animate glass cubes
+    if (cubesRef.current) {
+      cubesRef.current.children.forEach((child, i) => {
+        const data = cubeData[i];
+        if (!data) return;
+        child.rotation.x += data.speedRot;
+        child.rotation.y += data.speedRot * 0.8;
+        child.position.y += Math.sin(time + data.offset) * 0.003;
+      });
     }
   });
 
   return (
     <group>
-      {/* 1. Flower Petals */}
+      {/* Petals */}
       <group ref={petalsRef}>
         {petalData.map((data, i) => (
-          <mesh key={i} position={[data.x, data.y, data.z]} scale={[data.scale, data.scale, data.scale]}>
+          <mesh
+            key={i}
+            position={[data.x, data.y, data.z]}
+            scale={[data.scale, data.scale, data.scale]}
+          >
             <shapeGeometry args={[petalShape]} />
-            <meshStandardMaterial 
-              color="#EC4899" 
-              roughness={0.4} 
+            <meshStandardMaterial
+              color={i % 2 === 0 ? "#FFB7D5" : "#EC4899"}
               transparent
-              opacity={0.65}
-              side={THREE.DoubleSide} 
+              opacity={0.7}
+              side={THREE.DoubleSide}
             />
           </mesh>
         ))}
       </group>
 
-      {/* 2. Sparkles */}
+      {/* Sparkles */}
       <points ref={sparklesRef}>
         <bufferGeometry>
           <bufferAttribute
@@ -195,58 +201,71 @@ export function BackgroundParticles() {
           />
         </bufferGeometry>
         <pointsMaterial
-          size={0.035}
-          color="#3B82F6"
+          size={0.06}
+          color="#C084FC"
           transparent
           opacity={0.8}
           sizeAttenuation
         />
       </points>
 
-      {/* 3. Hearts */}
+      {/* Floating Hearts */}
       <group ref={heartsRef}>
-        {heartsData.map((data, i) => (
-          <mesh key={i} position={[data.x, data.y, data.z]} scale={[data.scale, data.scale, data.scale]}>
+        {heartData.map((data, i) => (
+          <mesh
+            key={i}
+            position={[data.x, data.y, data.z]}
+            scale={[data.scale, data.scale, data.scale]}
+            rotation={[Math.PI, 0, 0]}
+          >
             <shapeGeometry args={[heartShape]} />
-            <meshBasicMaterial color="#8B5CF6" transparent opacity={0.3} side={THREE.DoubleSide} />
-          </mesh>
-        ))}
-      </group>
-
-      {/* 4. Glass Bubbles */}
-      <group ref={bubblesRef}>
-        {bubblesData.map((data, i) => (
-          <mesh key={i} position={[data.x, data.y, data.z]}>
-            <sphereGeometry args={[data.scale, 16, 16]} />
             <meshStandardMaterial
-              color="#06B6D4"
-              roughness={0.1}
-              metalness={0.2}
+              color="#F43F5E"
               transparent
-              opacity={0.25}
+              opacity={0.4}
+              side={THREE.DoubleSide}
             />
           </mesh>
         ))}
       </group>
 
-      {/* 5. Stars */}
-      <points ref={starsRef}>
-        <bufferGeometry>
-          <bufferAttribute
-            attach="attributes-position"
-            args={[starsData.pos, 3]}
-          />
-        </bufferGeometry>
-        <pointsMaterial
-          size={0.02}
-          color="#FFFFFF"
-          transparent
-          opacity={0.5}
-          sizeAttenuation
-        />
-      </points>
+      {/* Glass Bubbles */}
+      <group ref={bubblesRef}>
+        {bubbleData.map((data, i) => (
+          <mesh
+            key={i}
+            position={[data.x, data.y, data.z]}
+            scale={[data.scale, data.scale, data.scale]}
+          >
+            <sphereGeometry args={[0.5, 16, 16]} />
+            <meshStandardMaterial
+              color="#60A5FA"
+              transparent
+              opacity={0.2}
+              roughness={0.1}
+            />
+          </mesh>
+        ))}
+      </group>
+
+      {/* Floating Glass Cubes */}
+      <group ref={cubesRef}>
+        {cubeData.map((data, i) => (
+          <mesh
+            key={i}
+            position={[data.x, data.y, data.z]}
+            scale={[data.scale, data.scale, data.scale]}
+          >
+            <boxGeometry args={[0.6, 0.6, 0.6]} />
+            <meshStandardMaterial
+              color="#C084FC"
+              transparent
+              opacity={0.25}
+              roughness={0.2}
+            />
+          </mesh>
+        ))}
+      </group>
     </group>
   );
 }
-
-export default BackgroundParticles;
