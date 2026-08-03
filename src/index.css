@@ -1,12 +1,11 @@
 /* ============================================
    SAIDEEPTHI KUMMARI — AWWWARDS PRO PORTFOLIO
-   Theme: #050816 Deep Space Purple Aurora
+   Theme: #050816 Dark & #FAF7FD Light Luxury
    ============================================ */
 
 :root,
-[data-theme="dark"],
-[data-theme="light"] {
-  /* Ultra-Premium Awwwards Color Palette */
+[data-theme="dark"] {
+  /* Ultra-Premium Awwwards Dark Theme */
   --bg-primary: #050816;
   --bg-secondary: #0B0F24;
   --bg-tertiary: #111736;
@@ -31,8 +30,8 @@
   --text-accent: #C084FC;
   
   /* Glassmorphism 40px Blur */
-  --glass-bg: rgba(11, 15, 36, 0.65);
-  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-bg: rgba(11, 15, 36, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.12);
   --glass-shadow: 0 16px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(139, 92, 246, 0.2);
   --glass-blur: 40px;
   
@@ -72,6 +71,46 @@
   --z-modal: 900;
 }
 
+[data-theme="light"] {
+  /* Premium Pearl Light Theme */
+  --bg-primary: #FAF7FD;
+  --bg-secondary: #F3EDFA;
+  --bg-tertiary: #EBE0F7;
+  
+  --accent-purple: #7C3AED;
+  --accent-purple-light: #9333EA;
+  --accent-purple-secondary: #A855F7;
+  --accent-blue: #2563EB;
+  --accent-cyan: #0284C7;
+  --accent-pink: #DB2777;
+  
+  --lavender: rgba(124, 58, 237, 0.12);
+  --lavender-deep: #7C3AED;
+  --light-cyan: rgba(2, 132, 199, 0.12);
+  --soft-peach: rgba(219, 39, 119, 0.12);
+  --mint: #059669;
+  --mint-deep: #047857;
+  
+  --text-primary: #1E1B2E;
+  --text-secondary: #4A4560;
+  --text-tertiary: #6E6885;
+  --text-accent: #7C3AED;
+  
+  /* Glassmorphism Light */
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(124, 58, 237, 0.18);
+  --glass-shadow: 0 16px 40px rgba(124, 58, 237, 0.1);
+  --glass-blur: 30px;
+  
+  /* Shadows Light */
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 10px 25px rgba(124, 58, 237, 0.08);
+  --shadow-lg: 0 20px 40px rgba(124, 58, 237, 0.12);
+  --shadow-xl: 0 30px 60px rgba(124, 58, 237, 0.16);
+  --shadow-glow: 0 0 50px rgba(124, 58, 237, 0.2);
+  --shadow-card: 0 10px 30px rgba(124, 58, 237, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+}
+
 /* ---------- Reset & Base ---------- */
 *,
 *::before,
@@ -96,6 +135,7 @@ body {
   color: var(--text-primary);
   line-height: 1.7;
   overflow-x: hidden;
+  transition: background-color var(--transition-base), color var(--transition-base);
 }
 
 a {
@@ -210,7 +250,7 @@ p {
 
 .section-title {
   margin-bottom: 16px;
-  background: linear-gradient(135deg, #FFFFFF 0%, #E2E8F0 40%, var(--accent-purple-light) 100%);
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 50%, var(--accent-purple-light) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -249,15 +289,15 @@ p {
 .glass-card:hover {
   box-shadow: var(--shadow-lg);
   transform: translateY(-4px);
-  border-color: rgba(192, 132, 252, 0.4);
+  border-color: rgba(192, 132, 252, 0.45);
 }
 
 /* ---------- Gradient Backgrounds ---------- */
 .gradient-bg {
   background: 
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(139, 92, 246, 0.2), transparent),
-    radial-gradient(ellipse 60% 40% at 80% 50%, rgba(192, 132, 252, 0.15), transparent),
-    radial-gradient(ellipse 60% 40% at 20% 80%, rgba(6, 182, 212, 0.12), transparent);
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(139, 92, 246, 0.15), transparent),
+    radial-gradient(ellipse 60% 40% at 80% 50%, rgba(192, 132, 252, 0.12), transparent),
+    radial-gradient(ellipse 60% 40% at 20% 80%, rgba(6, 182, 212, 0.08), transparent);
 }
 
 /* ---------- Buttons ---------- */
@@ -288,9 +328,9 @@ p {
 }
 
 .btn-secondary {
-  background: rgba(17, 23, 54, 0.7);
+  background: var(--glass-bg);
   color: var(--text-primary);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid var(--glass-border);
   box-shadow: var(--shadow-sm);
   backdrop-filter: blur(12px);
 }
@@ -309,8 +349,8 @@ p {
   gap: 8px;
   padding: 10px 24px;
   border-radius: var(--border-radius-full);
-  background: rgba(17, 23, 54, 0.65);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
   font-size: 0.9rem;
   font-weight: 500;
   color: var(--text-secondary);
@@ -323,12 +363,12 @@ p {
   transform: translateY(-4px) scale(1.04);
   box-shadow: 0 8px 30px rgba(139, 92, 246, 0.35);
   border-color: var(--accent-purple-light);
-  color: #FFFFFF;
+  color: var(--text-primary);
 }
 
 /* ---------- Text Gradients ---------- */
 .text-gradient {
-  background: linear-gradient(135deg, #FFFFFF 0%, var(--accent-purple-light) 50%, var(--accent-blue) 100%);
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-purple-light) 50%, var(--accent-blue) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

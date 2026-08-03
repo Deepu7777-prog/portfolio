@@ -15,22 +15,25 @@ const SmoothScrollProvider: React.FC<SmoothScrollProps> = ({ children }) => {
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
       smoothWheel: true,
       wheelMultiplier: 1.0,
-      touchMultiplier: 1.5,
+      touchMultiplier: 1.8,
     });
 
     lenis.on('scroll', ScrollTrigger.update);
 
-    const updateFunc = (time: number) => {
-      lenis.raf(time * 1000);
-    };
+    let rafId: number;
+    function raf(time: number) {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    }
 
-    gsap.ticker.add(updateFunc);
-    gsap.ticker.lagSmoothing(0);
+    rafId = requestAnimationFrame(raf);
 
     return () => {
-      gsap.ticker.remove(updateFunc);
+      cancelAnimationFrame(rafId);
       lenis.destroy();
     };
   }, []);

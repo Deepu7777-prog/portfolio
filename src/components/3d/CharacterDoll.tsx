@@ -8,15 +8,15 @@ const CharacterDoll: React.FC = () => {
   const avatarRef = useRef<THREE.Group>(null);
   const hologramGroupRef = useRef<THREE.Group>(null);
 
-  // Load Pixar 3D Girl Avatar texture
-  const texture = useTexture('/images/pixar_avatar.jpg');
+  // Load Real Photo of Saideepthi Kummari
+  const texture = useTexture('/images/profile.jpg');
   texture.colorSpace = THREE.SRGBColorSpace;
 
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
 
     if (groupRef.current) {
-      // Head/body tracks cursor with smooth lerp tilt
+      // Real photo 3D depth frame tracks cursor with smooth lerp tilt
       const targetRotationY = state.pointer.x * 0.35;
       const targetRotationX = -state.pointer.y * 0.25;
 
@@ -31,19 +31,18 @@ const CharacterDoll: React.FC = () => {
         0.08
       );
 
-      // Subtle hair sway & breathing motion
       groupRef.current.rotation.z = Math.sin(time * 1.5) * 0.015;
     }
 
     if (avatarRef.current) {
-      // Breathing & anti-gravity floating
+      // Floating & subtle breathing animation
       avatarRef.current.position.y = Math.sin(time * 2) * 0.1;
       avatarRef.current.scale.y = 1 + Math.sin(time * 2.5) * 0.012;
       avatarRef.current.scale.x = 1 + Math.cos(time * 2.5) * 0.008;
     }
 
     if (hologramGroupRef.current) {
-      // Rotating floating holograms
+      // Orbiting 3D holograms around her real photo
       hologramGroupRef.current.rotation.y = time * 0.3;
     }
   });
@@ -51,13 +50,13 @@ const CharacterDoll: React.FC = () => {
   return (
     <group ref={groupRef} position={[0, -0.1, 0]}>
       <group ref={avatarRef}>
-        {/* Soft Ambient Rear Glow */}
+        {/* Soft Ambient Purple Glow Behind Photo */}
         <mesh position={[0, 0, -0.2]}>
           <planeGeometry args={[3.8, 5.2]} />
-          <meshBasicMaterial color="#8B5CF6" transparent opacity={0.2} />
+          <meshBasicMaterial color="#8B5CF6" transparent opacity={0.25} />
         </mesh>
 
-        {/* 3D Pixar Avatar Frame */}
+        {/* 3D Photo Depth Frame with Real Photo */}
         <RoundedBox
           args={[3.4, 4.8, 0.12]}
           radius={0.3}
@@ -84,7 +83,7 @@ const CharacterDoll: React.FC = () => {
           <meshPhysicalMaterial
             color="#FFFFFF"
             transmission={0.85}
-            opacity={0.25}
+            opacity={0.2}
             transparent
             roughness={0.1}
             ior={1.2}
@@ -101,7 +100,7 @@ const CharacterDoll: React.FC = () => {
             </mesh>
             <Html distanceFactor={10} center>
               <div style={{
-                background: 'rgba(139, 92, 246, 0.3)',
+                background: 'rgba(139, 92, 246, 0.35)',
                 border: '1px solid rgba(192, 132, 252, 0.5)',
                 backdropFilter: 'blur(10px)',
                 padding: '4px 10px',
@@ -125,7 +124,7 @@ const CharacterDoll: React.FC = () => {
             </mesh>
             <Html distanceFactor={10} center>
               <div style={{
-                background: 'rgba(55, 118, 171, 0.3)',
+                background: 'rgba(55, 118, 171, 0.35)',
                 border: '1px solid rgba(96, 165, 250, 0.5)',
                 backdropFilter: 'blur(10px)',
                 padding: '4px 10px',
@@ -149,7 +148,7 @@ const CharacterDoll: React.FC = () => {
             </mesh>
             <Html distanceFactor={10} center>
               <div style={{
-                background: 'rgba(6, 182, 212, 0.3)',
+                background: 'rgba(6, 182, 212, 0.35)',
                 border: '1px solid rgba(6, 182, 212, 0.5)',
                 backdropFilter: 'blur(10px)',
                 padding: '4px 10px',
