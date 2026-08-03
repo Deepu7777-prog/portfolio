@@ -1,14 +1,14 @@
 /* ============================================
    SAIDEEPTHI KUMMARI — AWWWARDS PRO PORTFOLIO
-   Theme: #050816 Dark & #FAF7FD Light Luxury
+   Luxury Theme: #050816 → #0F172A → #1E1B4B Aurora
    ============================================ */
 
 :root,
 [data-theme="dark"] {
   /* Ultra-Premium Awwwards Dark Theme */
   --bg-primary: #050816;
-  --bg-secondary: #0B0F24;
-  --bg-tertiary: #111736;
+  --bg-secondary: #0F172A;
+  --bg-tertiary: #1E1B4B;
   
   --accent-purple: #8B5CF6;
   --accent-purple-light: #C084FC;
@@ -30,7 +30,7 @@
   --text-accent: #C084FC;
   
   /* Glassmorphism 40px Blur */
-  --glass-bg: rgba(11, 15, 36, 0.7);
+  --glass-bg: rgba(15, 23, 42, 0.7);
   --glass-border: rgba(255, 255, 255, 0.12);
   --glass-shadow: 0 16px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(139, 92, 246, 0.2);
   --glass-blur: 40px;
@@ -292,12 +292,13 @@ p {
   border-color: rgba(192, 132, 252, 0.45);
 }
 
-/* ---------- Gradient Backgrounds ---------- */
+/* ---------- Luxury Aurora Background ---------- */
 .gradient-bg {
   background: 
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(139, 92, 246, 0.15), transparent),
-    radial-gradient(ellipse 60% 40% at 80% 50%, rgba(192, 132, 252, 0.12), transparent),
-    radial-gradient(ellipse 60% 40% at 20% 80%, rgba(6, 182, 212, 0.08), transparent);
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(139, 92, 246, 0.22), transparent),
+    radial-gradient(ellipse 60% 40% at 85% 50%, rgba(192, 132, 252, 0.16), transparent),
+    radial-gradient(ellipse 60% 40% at 15% 80%, rgba(6, 182, 212, 0.14), transparent),
+    radial-gradient(ellipse 70% 50% at 50% 120%, rgba(30, 27, 75, 0.6), transparent);
 }
 
 /* ---------- Buttons ---------- */
